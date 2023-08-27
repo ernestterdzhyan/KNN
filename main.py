@@ -7,7 +7,24 @@ data = load_breast_cancer()
 X, y = data.data, data.target
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-my_knn = KNN(k=3)
+#edited code
+
+k_values = [1, 3, 5, 7, 9]
+best_accuracy = 0
+best_k = None
+for k in k_values:
+    my_knn = KNN(k=k)
+    my_knn.fit(X_train_new, y_train_new)
+    val_predictions = my_knn.predict(X_val)
+    accuracy = accuracy_score(y_val, val_predictions)
+    print(f"Accuracy of my KNN with k={k}: {accuracy:.4f}")
+    if accuracy > best_accuracy:
+        best_accuracy = accuracy
+        best_k = k
+print(f"Best k value: {best_k}")
+
+#end of edited code
+my_knn = KNN(k=best_k)
 my_knn.fit(X_train, y_train)
 
 my_predictions = my_knn.predict(X_test)
